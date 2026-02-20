@@ -1,18 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Cron, SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class CronService {
 
     constructor(
-        private readonly schedulerRegistry: SchedulerRegistry
+        private readonly schedulerRegistry: SchedulerRegistry,
+        private readonly loggerService: LoggerService
     ){}
 
     @Cron('*/10 * * * * *', {
         name: 'cron1'
     })
     cron1(){
+        //this.loggerService.log("cron 1 acción cada 10 seg");
         console.log("cron 1 acción cada 10 seg");
     }
 
@@ -21,7 +24,8 @@ export class CronService {
         name: 'cron2'
     })
     cron2(){
-        console.log("cron 2 cada 30 seg");
+        // this.loggerService.error("cron 2 cada 30 seg");
+        console.error("cron 2 cada 30 seg");
     }
 
     
@@ -29,7 +33,8 @@ export class CronService {
         name: 'cron3'
     })
     cron3(){
-        console.log("cron 3 cada minuto");
+        //this.loggerService.warn("cron 3 cada minuto");
+        console.warn("cron 3 cada minuto");
     }
 
     stopCron(name: string){
